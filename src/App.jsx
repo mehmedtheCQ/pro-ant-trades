@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./DashBoard.css";
 import Home from "./Home.jsx";
@@ -7,6 +8,7 @@ import HomeBody from "./HomeBody.jsx";
 import DashBoard from "./DashBoard.jsx";
 import { isSignedin } from "./components/UserData.jsx";
 import { useState, useEffect } from "react";
+import Login from "./Login.jsx";
 
 function App() {
   const [authState, SetauthState] = useState(() =>
@@ -19,7 +21,7 @@ function App() {
     localStorage.setItem("loginState", JSON.stringify(authState));
   }, [authState]);
 
-  const inDashboard = !authState ? (
+  const inDashboard = (
     <div
       style={{
         background: "rgba(5, 1, 3, 0.3)",
@@ -32,27 +34,31 @@ function App() {
         <Header />
         <div className="welcome">
           <Home />
+          <Login />
         </div>
       </div>
       <HomeBody />
 
       <Footer />
     </div>
-  ) : (
-    <>
-      <div className="dash-body" style={{ paddingTop: "0%" }}>
-        <div className="dashboard-body">
-          <DashBoard />
-        </div>
-      </div>
-    </>
   );
+  const dashBoard = (
+    <div className="dash-body" style={{ paddingTop: "0%" }}>
+      <div className="dashboard-body">
+        <DashBoard />
+      </div>
+    </div>
+  );
+
   return (
-    <>
-      <isSignedin.Provider value={{ authState, SetauthState }}>
-        {inDashboard}
-      </isSignedin.Provider>
-    </>
+    <isSignedin.Provider value={{ authState, SetauthState }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={inDashboard} />
+          <Route path="/DashBoard.jsx" element={dashBoard} />
+        </Routes>
+      </BrowserRouter>
+    </isSignedin.Provider>
   );
 }
 

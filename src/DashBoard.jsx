@@ -4,11 +4,11 @@ import SideBar from "./SideBar.jsx";
 import DashBoardCard from "./DashBoardCard.jsx";
 import TradingViewAssetlist from "./TradingViewAssetlist.jsx";
 import { isSignedin, userDeets } from "./components/UserData.jsx";
-import { useContext, useState } from "react";
+import Login from "./Login.jsx";
 
 export default function DashBoard() {
   const proudIndex = 1;
-  const signed = (
+  const signed = !isSignedin ? (
     <>
       <div
         style={{
@@ -36,6 +36,8 @@ export default function DashBoard() {
         <TradingViewAssetlist />
       </div>
     </>
+  ) : (
+    <Login />
   );
 
   return <>{signed}</>;

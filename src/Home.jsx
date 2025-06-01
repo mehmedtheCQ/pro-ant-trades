@@ -1,11 +1,7 @@
 import React from "react";
 import TradingViewTickerTape from "./TradingViewPrice.jsx";
-import { useContext, useState } from "react";
-import { isSignedin } from "./components/UserData";
 
 export default function Home() {
-  const { SetauthState } = useContext(isSignedin);
-  const setterFunction = () => SetauthState(true);
   const welcomeMessage =
     "Trade smarter.\nEmbrace a new era of trading excellence.";
   const subText =
@@ -17,8 +13,8 @@ export default function Home() {
       <div className="homecontainer">
         <h1>{welcomeMessage}</h1>
         <div className="arial">{subText}</div>
-        <a href="./App.jsx">
-          <div className="header-button" onClick={setterFunction}>
+        <a href="./DashBoard.jsx">
+          <div className="header-button">
             {SigninText}
             <span className="icon-margin">
               <i class="fa-solid fa-chevron-right"></i>
