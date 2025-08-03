@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import siteLogo from "./assets/logo.png";
 import menuButton from "./assets/menu.svg";
-import { isSignedin, userDeets } from "./components/UserData";
 
 export default function Header() {
   const [scrolled, setscrolled] = useState(false);

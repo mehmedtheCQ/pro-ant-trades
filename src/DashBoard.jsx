@@ -3,12 +3,11 @@ import "./DashBoard.css";
 import SideBar from "./SideBar.jsx";
 import DashBoardCard from "./DashBoardCard.jsx";
 import TradingViewAssetlist from "./TradingViewAssetlist.jsx";
-import { isSignedin, userDeets } from "./components/UserData.jsx";
-import Login from "./Login.jsx";
+import { userDeets } from "./components/UserData.jsx";
 
 export default function DashBoard() {
   const proudIndex = 1;
-  const signed = !isSignedin ? (
+  const signed = (
     <>
       <div
         style={{
@@ -36,8 +35,6 @@ export default function DashBoard() {
         <TradingViewAssetlist />
       </div>
     </>
-  ) : (
-    <Login />
   );
 
   return <>{signed}</>;

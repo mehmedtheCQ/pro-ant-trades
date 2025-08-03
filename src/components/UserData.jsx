@@ -1,8 +1,9 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
-export const isSignedin = createContext();
+export const AuthContext = createContext(null);
+export const useAuth = () => useContext(AuthContext);
 
-export let userDeets = () => {
+export const userDeets = () => {
   let balance = 2500;
   let pnl = 3000;
   let uID = 0o1;

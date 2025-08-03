@@ -13,7 +13,7 @@ export default function Home() {
       <div className="homecontainer">
         <h1>{welcomeMessage}</h1>
         <div className="arial">{subText}</div>
-        <a href="./DashBoard.jsx">
+        <a href="./DashBoard">
           <div className="header-button">
             {SigninText}
             <span className="icon-margin">

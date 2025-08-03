@@ -4,6 +4,7 @@ import transactionHistory from "./components/TransactionHistory.jsx";
 import TradingViewWidget from "./TradingViewWidget.jsx";
 import Notifications from "./components/Notifications.jsx";
 import Recharts from "./Recharts.jsx";
+
 export default function DashBoardCard() {
   return (
     <span style={{ flex: "1" }}>

@@ -1,16 +1,9 @@
 import { useContext, useState } from "react";
 import lougoutIcon from "./assets/icons/logout.svg";
 import SidebarArray from "./components/SidebarArray.jsx";
-import { isSignedin } from "./components/UserData.jsx";
 // import { motion, AnimatePresence } from "framer-motion";
 
 export default function SideBar(prop) {
-  const { SetAuthState } = useContext(isSignedin);
-  const logTFout = () => {
-    localStorage.removeItem("loginState");
-    SetAuthState(false);
-  };
-  const glowImg = SidebarArray[prop.index].title;
   const [menuState, setMenuState] = useState(false);
   const sideMenu = SidebarArray.map((item, index) =>
     !menuState ? (
@@ -41,13 +34,8 @@ export default function SideBar(prop) {
       >
         {sideMenu}
         <a href="./Home.jsx">
-          <div className="shrinked-class" onClick={logTFout}>
-            <img
-              src={lougoutIcon}
-              style={{}}
-              className="side-bar-image"
-              alt="Logout"
-            />
+          <div className="shrinked-class">
+            <img src={lougoutIcon} className="side-bar-image" alt="Logout" />
           </div>
         </a>
       </span>
