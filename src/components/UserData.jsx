@@ -1,26 +1,54 @@
-import { createContext, useContext } from "react";
+import { useState, useEffect } from "react";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { useAuth } from "../Auth";
 
-export const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+export const useUserDeets = () => {
+  const [userDeet, setUserDeet] = useState(null);
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    const fetchUserDeets = async () => {
+      console.log("useEffect triggered. currentUser:", currentUser);
+      if (currentUser) {
+        try {
+          const userDocRef = doc(db, "users", currentUser.uid);
+          const userDocSnap = await getDoc(userDocRef);
+          if (userDocSnap.exists()) {
+            setUserDeet(userDocSnap.data());
+          } else {
+            console.log("No Document found for this user");
+            setUserDeet(null);
+          }
+        } catch (error) {
+          console.error("Error fetching Userdeets", error);
+          setUserDeet(null);
+        }
+      }
+    };
+    fetchUserDeets();
+  }, [currentUser]);
 
-export const userDeets = () => {
-  let balance = 2500;
-  let pnl = 3000;
-  let uID = 0o1;
-  let autoTrade = true;
-  let KYC = false;
-  let isAdmin = true;
-  let name = "Mehmed";
-  return {
-    name,
-    isAdmin,
-    balance,
-    autoTrade,
-    KYC,
-    uID,
-    pnl,
-    equity: balance + pnl,
-  };
+  return userDeet
+    ? {
+        name: userDeet.username,
+        isAdmin: userDeet.isAdmin || false,
+        balance: userDeet.balance,
+        autoTrade: userDeet.autoTrade,
+        KYC: userDeet.KYC,
+        uID: userDeet.uID,
+        pnl: userDeet.PnL,
+        equity: (userDeet.balance || 0) + (userDeet.PnL || 0),
+      }
+    : {
+        name: "???",
+        isAdmin: false,
+        balance: 0,
+        autoTrade: false,
+        KYC: false,
+        uID: 0,
+        pnl: 0,
+        equity: 0,
+      };
 };
 
 export let tradeHistory = [

@@ -1,11 +1,12 @@
-import { userDeets } from "./components/UserData.jsx";
 import React from "react";
+import { useUserDeets } from "./components/UserData.jsx";
 import transactionHistory from "./components/TransactionHistory.jsx";
 import TradingViewWidget from "./TradingViewWidget.jsx";
 import Notifications from "./components/Notifications.jsx";
 import Recharts from "./Recharts.jsx";
 
 export default function DashBoardCard() {
+  const user = useUserDeets();
   return (
     <span style={{ flex: "1" }}>
       <Notifications />
@@ -19,10 +20,10 @@ export default function DashBoardCard() {
                 letterSpacing: "0.05em",
               }}
             >
-              EQUITY<b>:</b> ${userDeets().equity}
+              EQUITY<b>:</b> ${user.equity}
             </div>
             <div className="dashboard-cardvalue">
-              <div style={{ fontWeight: "700" }}>${userDeets().balance}</div>
+              <div style={{ fontWeight: "700" }}>${user.balance}</div>
               <div
                 style={{
                   fontSize: "0.5em",
@@ -31,7 +32,7 @@ export default function DashBoardCard() {
                   color: "rgba(90, 150, 90)",
                 }}
               >
-                +${userDeets().pnl}
+                +${user.pnl}
               </div>
             </div>
           </div>

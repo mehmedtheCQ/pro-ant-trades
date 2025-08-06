@@ -3,9 +3,10 @@ import "./DashBoard.css";
 import SideBar from "./SideBar.jsx";
 import DashBoardCard from "./DashBoardCard.jsx";
 import TradingViewAssetlist from "./TradingViewAssetlist.jsx";
-import { userDeets } from "./components/UserData.jsx";
+import { useUserDeets } from "./components/UserData.jsx";
 
 export default function DashBoard() {
+  const user = useUserDeets();
   const proudIndex = 1;
   const signed = (
     <>
@@ -27,7 +28,7 @@ export default function DashBoard() {
           backdropFilter: "inherit",
         }}
       >
-        Hi {userDeets().name}
+        Hi {user.name}
       </div>
       <div className="dashboard-container">
         <SideBar index={proudIndex} />

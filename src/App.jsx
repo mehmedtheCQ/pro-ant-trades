@@ -6,24 +6,11 @@ import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import HomeBody from "./HomeBody.jsx";
 import DashBoard from "./DashBoard.jsx";
-import { useState, useEffect } from "react";
 import Login from "./Login.jsx";
-import { auth } from "./firebase.js";
-import { onAuthStateChanged } from "firebase/auth";
-import { AuthContext } from "./components/UserData.jsx";
+import { useAuth } from "./Auth.jsx";
 
 function App() {
-  const [userName, setuserName] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setuserName(user);
-      setLoading(false);
-      console.log(user, "Logged in");
-    });
-
-    return unsubscribe;
-  }, []);
+  const { currentUser } = useAuth();
 
   const inDashboard = (
     <div
@@ -42,10 +29,10 @@ function App() {
         </div>
       </div>
       <HomeBody />
-
       <Footer />
     </div>
   );
+
   const dashBoard = (
     <div className="dash-body" style={{ paddingTop: "0%" }}>
       <div className="dashboard-body">
@@ -54,31 +41,20 @@ function App() {
     </div>
   );
 
-  if (loading) {
-    return (
-      <div>
-        <Login />
-        Loading...
-      </div>
-    );
-  }
-
   return (
-    <AuthContext.Provider value={userName}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={inDashboard} />
-          <Route
-            path="Login"
-            element={!userName ? <Login /> : <Navigate to="/DashBoard" />}
-          />
-          <Route
-            path="/DashBoard"
-            element={userName ? dashBoard : <Navigate to="/Login" />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </AuthContext.Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={inDashboard} />
+        <Route
+          path="Login"
+          element={!currentUser ? <Login /> : <Navigate to="/DashBoard" />}
+        />
+        <Route
+          path="/DashBoard"
+          element={currentUser ? dashBoard : <Navigate to="/Login" />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
