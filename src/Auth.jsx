@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
 import { auth } from "./firebase"; // Correct import for your Firebase auth instance
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged
+import Home from "./Home";
+import Header from "./Header";
 
 // Re-define AuthContext here, or import it if you prefer to keep it in UserData.jsx
 // For clarity, it's often defined where the Provider is.
@@ -23,7 +25,11 @@ export const AuthProvider = ({ children }) => {
 
   // While loading, you might want to render a loading spinner or nothing
   if (loading) {
-    return <div>Loading authentication...</div>; // Or a proper loading component
+    return (
+      <div>
+        <Header /> <Home />
+      </div>
+    ); // Or a proper loading component
   }
 
   return (

@@ -1,7 +1,10 @@
+import { useTransactions } from "../components/UserData.jsx";
 import { transactions } from "../components/UserData.jsx";
-const limitedTrans = transactions.slice(0, 3);
 
 const transactionHistory = () => {
+  const { transactions, loading } = useTransactions();
+  const limitedTrans = transactions.slice(0, 3);
+
   return (
     <table className="table">
       <thead>

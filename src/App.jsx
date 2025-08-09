@@ -8,7 +8,7 @@ import HomeBody from "./HomeBody.jsx";
 import DashBoard from "./DashBoard.jsx";
 import Login from "./Login.jsx";
 import { useAuth } from "./Auth.jsx";
-
+import SignUp from "./SignUp.jsx";
 function App() {
   const { currentUser } = useAuth();
 
@@ -25,7 +25,6 @@ function App() {
         <Header />
         <div className="welcome">
           <Home />
-          <Login />
         </div>
       </div>
       <HomeBody />
@@ -45,6 +44,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={inDashboard} />
+        <Route path="SignUp" element=<SignUp /> />
         <Route
           path="Login"
           element={!currentUser ? <Login /> : <Navigate to="/DashBoard" />}

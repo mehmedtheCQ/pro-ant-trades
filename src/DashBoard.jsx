@@ -28,7 +28,7 @@ export default function DashBoard() {
           backdropFilter: "inherit",
         }}
       >
-        Hi {user.name}
+        {user.name}
       </div>
       <div className="dashboard-container">
         <SideBar index={proudIndex} />

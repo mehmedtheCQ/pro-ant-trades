@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../Auth";
+import { getAuth } from "firebase/auth";
 
+// User Profile
 export const useUserDeets = () => {
   const [userDeet, setUserDeet] = useState(null);
   const { currentUser } = useAuth();
   useEffect(() => {
     const fetchUserDeets = async () => {
-      console.log("useEffect triggered. currentUser:", currentUser);
       if (currentUser) {
         try {
           const userDocRef = doc(db, "users", currentUser.uid);
@@ -30,7 +31,7 @@ export const useUserDeets = () => {
 
   return userDeet
     ? {
-        name: userDeet.username,
+        name: `Welcome, ${userDeet.username}`,
         isAdmin: userDeet.isAdmin || false,
         balance: userDeet.balance,
         autoTrade: userDeet.autoTrade,
@@ -40,14 +41,14 @@ export const useUserDeets = () => {
         equity: (userDeet.balance || 0) + (userDeet.PnL || 0),
       }
     : {
-        name: "???",
+        name: "Loading Dashboard...",
         isAdmin: false,
         balance: 0,
-        autoTrade: false,
-        KYC: false,
-        uID: 0,
-        pnl: 0,
-        equity: 0,
+        autoTrade: null,
+        KYC: null,
+        uID: null,
+        pnl: null,
+        equity: null,
       };
 };
 
@@ -59,6 +60,39 @@ export let tradeHistory = [
   { finalPnl: 2350, date: 125 },
 ];
 
+// User transactions
+export const useTransactions = () => {
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    console.log(currentUser);
+    const getTransactions = async () => {
+      if (!currentUser) return;
+      try {
+        console.log("Fetching transactions");
+        const transactionsRef = collection(
+          db,
+          "users",
+          currentUser.uid,
+          "transactions",
+        );
+        const snapshot = await getDocs(transactionsRef);
+        const transactionsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTransactions(transactionsData);
+      } catch (err) {
+        console.error("Error Fetching Transactions, please refresh", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getTransactions();
+  }, [currentUser]);
+  return { transactions, loading };
+};
 export let transactions = [
   {
     amount: 500,

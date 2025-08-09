@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
+import SignUp from "./SignUp";
 
 export default function Login() {
   const [emailcred, setEmailcred] = useState("");
@@ -30,6 +32,7 @@ export default function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={loginProcess}>Login</button>
+      <Link to="/SignUp">New User? SignUp instead</Link>
     </div>
   );
 }
